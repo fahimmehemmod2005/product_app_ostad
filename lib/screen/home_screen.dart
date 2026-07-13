@@ -139,7 +139,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Text('Qty: ${item.qty}'),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      productController
+                          .deleteProduct(productID: '${item.sId}')
+                          .then((value) async {
+                            if (value) {
+                              await fetchData();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Product Deleted'),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Something wrong try again'),
+                                ),
+                              );
+                            }
+                          });
+                    },
                     icon: Icon(Icons.delete, color: Colors.red),
                   ),
                 ],

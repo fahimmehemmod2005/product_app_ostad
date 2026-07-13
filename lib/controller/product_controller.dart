@@ -5,6 +5,7 @@ import 'package:ostad_api_1/urls/urls.dart';
 import 'package:http/http.dart' as http;
 
 class ProductController {
+  /// get
   List<Data> products = [];
 
   Future<void> getReadProduct() async {
@@ -21,6 +22,7 @@ class ProductController {
     }
   }
 
+  /// post
   Future<bool> createProduct(Data data) async {
     final url = Uri.parse(Urls.postCreateProduct);
     final response = await http.post(
@@ -42,6 +44,22 @@ class ProductController {
     log('Response Body: ${response.body}');
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /// delete by id
+  Future<bool> deleteProduct({required String productID}) async {
+    final url = Uri.parse(Urls.deleteProductByID(productID: productID));
+    final response = await http.get(url);
+
+    log('Status Code: ${response.statusCode}');
+    log('Response Body: ${response.body}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      getReadProduct();
       return true;
     } else {
       return false;
